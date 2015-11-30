@@ -4,24 +4,34 @@
 	root.ko = {
 		applyBindings: function(viewModel, id) {
 			var clone = document.importNode(document.querySelector('#' + id).content, true);
-			renderTemplate(clone, viewModel);
+			var realDom = clone.removeChild(clone.firstElementChild);
+			var result = renderTemplate(realDom, viewModel);
 
-			function renderTemplate(template, viewModel) {
-				var realDom = template.removeChild(template.firstElementChild);
+			function renderTemplate(realDom, viewModel) {
+				var attrName = "data-bind";
 				for(var i = 0;i < realDom.attributes.length;i++) {
-					var attrName = "data-bind";
-					if(realDom.attributes[i].name == attrName) {
-						var attrValue = realDom.attributes[i].value;
+					var attrValue = realDom.attributes[i].value;
+					var firstElementChild = realDom.firstElementChild;	
+					var jqueryFather = $(realDom);
+					if(firstElementChild) {
+						var childDom = realDom.removeChild(firstElementChild);
+						if(realDom.attributes[i].name == attrName) {
+							jqueryFather = ko.render(realDom, viewModel, attrValue);
+						}
+						var jqueryChild = renderTemplate(childDom, viewModel);
+						jqueryFather.append(jqueryChild);
+					} else {
 						ko.render(realDom, viewModel, attrValue);
 					}
+					return jqueryFather;
 				}
 			}
+			$('body').append(result);
 		},
 		render: function(realDom, viewModel, attrValue) {
 			var instruct = ko.util.getInstructByAttributeValue(attrValue);
 			var value = ko.util.getValueByPropertyChain(instruct.chain, viewModel);
-			ko.util.instruct[instruct.type].call(this, value, $(realDom));
-			document.body.appendChild(realDom);
+			return ko.util.instruct[instruct.type].call(this, value, $(realDom));
 		} 
 	};
 
@@ -46,8 +56,9 @@
 			return value;
 		},
 		instruct: {
-			text: function(value, jqueryObjct) {
-				jqueryObjct.text(value);
+			text: function(value, jqueryObject) {
+				jqueryObject.text(value);
+				return jqueryObject;
 			}
 		}
 	};
