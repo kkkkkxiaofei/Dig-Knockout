@@ -8,23 +8,22 @@
 			var result = renderTemplate(realDom, viewModel);
 
 			function renderTemplate(realDom, viewModel) {
-				var attrName = "data-bind";
-				for(var i = 0;i < realDom.attributes.length;i++) {
-					var attrValue = realDom.attributes[i].value;
-					var firstElementChild = realDom.firstElementChild;	
-					var jqueryFather = $(realDom);
+				var attrValue = ko.util.getTag(realDom.attributes);
+				var firstElementChild = realDom.firstElementChild;	
+				var jqueryFather = $(realDom);
 					if(firstElementChild) {
 						var childDom = realDom.removeChild(firstElementChild);
-						if(realDom.attributes[i].name == attrName) {
+						if(attrValue) {
 							jqueryFather = ko.render(realDom, viewModel, attrValue);
 						}
 						var jqueryChild = renderTemplate(childDom, viewModel);
 						jqueryFather.append(jqueryChild);
 					} else {
-						ko.render(realDom, viewModel, attrValue);
+						if(attrValue) {
+							ko.render(realDom, viewModel, attrValue);
+						}
 					}
-					return jqueryFather;
-				}
+				return jqueryFather;
 			}
 			$('body').append(result);
 		},
@@ -36,6 +35,16 @@
 	};
 
 	root.ko.util = {
+		getTag: function(attributes) {
+			for(var i = 0;i < attributes.length;i++) {
+				var attrName = attributes[i].name;
+				if(attrName == "data-bind") {
+					var attrValue = attributes[i].value;
+					return attrValue;
+				}
+			}
+			return null;
+		},
 		getInstructByAttributeValue: function(attrValue) {
 			var splits = attrValue.split(':');
 			var instruction = splits[0];
