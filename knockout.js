@@ -17,10 +17,10 @@
 				if(rootAttrValue) {
 					root = ko.render(root, viewModel, rootAttrValue);
 				}
-				renderSubTemplate(realSubNodes, viewModel);
-				root.append(realSubNodes);
+				renderSubNodes(realSubNodes, viewModel);
+				realSubNodes.length > 0 && root.append(realSubNodes);
 
-				function renderSubTemplate(realNodes, viewModel) {
+				function renderSubNodes(realNodes, viewModel) {
 					if(realNodes.length > 0) {
 						for(var i = 0;i < realNodes.length;i++) {
 							var node = realNodes[i];
@@ -89,6 +89,11 @@
 			text: function(value, jqueryObject) {
 				jqueryObject.text(value);
 				return jqueryObject;
+			},
+			click: function(fn, jqueryObject) {
+				return jqueryObject.click(function() {
+					fn && fn.call(jqueryObject);
+				});
 			}
 		}
 	};
