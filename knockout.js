@@ -4,28 +4,41 @@
 	root.ko = {
 		applyBindings: function(viewModel, id) {
 			var clone = document.importNode(document.querySelector('#' + id).content, true);
-			var realDom = clone.removeChild(clone.firstElementChild);
-			var result = renderTemplate(realDom, viewModel);
+			var fragmentContent = ko.util.splitSubRealDoms(clone);
+			for(var i = 0;i < fragmentContent.length;i++) {
+				var result = renderTemplate(fragmentContent[i], viewModel);
+				$('body').append($(result));
+			}
 
-			function renderTemplate(realDom, viewModel) {
-				var attrValue = ko.util.getTag(realDom.attributes);
-				var firstElementChild = realDom.firstElementChild;	
-				var jqueryFather = $(realDom);
-					if(firstElementChild) {
-						var childDom = realDom.removeChild(firstElementChild);
-						if(attrValue) {
-							jqueryFather = ko.render(realDom, viewModel, attrValue);
-						}
-						var jqueryChild = renderTemplate(childDom, viewModel);
-						jqueryFather.append(jqueryChild);
-					} else {
-						if(attrValue) {
-							ko.render(realDom, viewModel, attrValue);
+			function renderTemplate(root, viewModel) {
+				var realSubNodes = ko.util.splitSubRealDoms(root);
+				var rootAttrValue = ko.util.getTag(root.attributes);
+				var root = $(root);
+				if(rootAttrValue) {
+					root = ko.render(root, viewModel, rootAttrValue);
+				}
+				renderSubTemplate(realSubNodes, viewModel);
+				root.append(realSubNodes);
+
+				function renderSubTemplate(realNodes, viewModel) {
+					if(realNodes.length > 0) {
+						for(var i = 0;i < realNodes.length;i++) {
+							var node = realNodes[i];
+							var attrValue = ko.util.getTag(node.attributes);
+							var firstElementChild = node.firstElementChild;	
+							var jqueryFather = $(node);
+							if(firstElementChild) {
+								renderTemplate(node, viewModel);
+							} else {
+								if(attrValue) {
+									ko.render(node, viewModel, attrValue);
+								}
+							}	
 						}
 					}
-				return jqueryFather;
+				}
+				return root;
 			}
-			$('body').append(result);
 		},
 		render: function(realDom, viewModel, attrValue) {
 			var instruct = ko.util.getInstructByAttributeValue(attrValue);
@@ -35,6 +48,14 @@
 	};
 
 	root.ko.util = {
+		splitSubRealDoms: function(fatherDom) {
+			var subRealDoms = [];
+			while(fatherDom.firstElementChild) {
+				var firstElementChild = fatherDom.removeChild(fatherDom.firstElementChild);
+				subRealDoms.push(firstElementChild);
+			}
+			return subRealDoms;
+		},
 		getTag: function(attributes) {
 			for(var i = 0;i < attributes.length;i++) {
 				var attrName = attributes[i].name;
