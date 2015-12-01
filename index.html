@@ -5,7 +5,7 @@
 </head>
 <body>
 	<template id="test">
-		<div data-bind="text: name">
+		<div data-bind="text: (function() {return 12313;})()">
 			
 		</div>
 		<div data-bind="click: function() {alert('hello..all');}">

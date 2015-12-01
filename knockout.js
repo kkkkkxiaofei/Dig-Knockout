@@ -42,8 +42,7 @@
 		},
 		render: function(realDom, viewModel, attrValue) {
 			var instruct = ko.util.getInstructByAttributeValue(attrValue);
-			var value = ko.util.isEventInstruct(instruct.type) ? instruct.chain
-			: ko.util.getValueByPropertyChain(instruct.chain, viewModel);
+			var value = ko.util.getValueByInstruct(instruct, viewModel);
 			return ko.util.instruct[instruct.type].call(this, value, $(realDom));
 		} 
 	};
@@ -73,27 +72,51 @@
 			var objectPropertyChain = splits[1];
 			return {
 				type: instruction,
-				chain: objectPropertyChain
+				chain: objectPropertyChain.trim()
 			};
 
 		},
-		getValueByPropertyChain: function(propertyChain, viewModel) {
-			var chains = propertyChain.split('.');
-			var value = undefined;
-			while(chains.length > 0) {
-				var pro = chains.shift();
-				value = viewModel[pro.trim()];
+		getValueByInstruct: function(instruct, viewModel) {
+			var type = instruct.chain.constructor.name;
+			if(ko.util.isEventInstruct(instruct.type)) {
+				var value = findValueByPropertyChain(instruct.chain, viewModel);
+				if(!value) {
+					return ko.util.decodeFn(instruct.chain);
+				}
+				return value;
+			} else {
+				var value = findValueByPropertyChain(instruct.chain, viewModel);
+				if(!value) {
+					return ko.util.decodeValue(instruct.chain);
+				}
+				return value;
 			}
-			return value;
+
+			function findValueByPropertyChain(propertyChain, viewModel) {
+				var chains = propertyChain.split('.');
+				var value = undefined;
+				while(chains.length > 0) {
+					var pro = chains.shift();
+					value = viewModel[pro.trim()];
+					if(value == undefined) {
+						return undefined;
+					}
+				}
+				return value;
+			}
 		},
-		decodeFunction: function(fn) {
-			var type = fn.constructor.name;
-			if(type == "Function") {
-				return fn;
-			} else if(type == "String") {
-				fn = "var newFn = " + fn;
-				eval.call(null, fn);
+		decodeFn: function(expression) {
+			var type = expression.constructor.name;
+			if(type == "String") {
+				expression = "var newFn = " + expression;
+				eval.call(null, expression);
 				return newFn;
+			}
+		},
+		decodeValue: function(expression) {
+			var type = expression.constructor.name;
+			if(type == "String") {
+				return eval.call(null, expression);
 			}
 		},
 		isEventInstruct: function(type) {
@@ -105,7 +128,6 @@
 				return jqueryObject;
 			},
 			click: function(fn, jqueryObject) {
-				var fn = ko.util.decodeFunction(fn);
 				return jqueryObject.click(function() {
 					fn && fn.call(jqueryObject);
 				});
