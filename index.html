@@ -5,7 +5,10 @@
 </head>
 <body>
 	<template id="test">
-		<div data-bind="click: sayHello">
+		<div data-bind="text: name">
+			
+		</div>
+		<div data-bind="click: function() {alert('hello..all');}">
 			please click me
 		</div>
 	</template>

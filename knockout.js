@@ -42,7 +42,8 @@
 		},
 		render: function(realDom, viewModel, attrValue) {
 			var instruct = ko.util.getInstructByAttributeValue(attrValue);
-			var value = ko.util.getValueByPropertyChain(instruct.chain, viewModel);
+			var value = ko.util.isEventInstruct(instruct.type) ? instruct.chain
+			: ko.util.getValueByPropertyChain(instruct.chain, viewModel);
 			return ko.util.instruct[instruct.type].call(this, value, $(realDom));
 		} 
 	};
@@ -85,12 +86,26 @@
 			}
 			return value;
 		},
+		decodeFunction: function(fn) {
+			var type = fn.constructor.name;
+			if(type == "Function") {
+				return fn;
+			} else if(type == "String") {
+				fn = "var newFn = " + fn;
+				eval.call(null, fn);
+				return newFn;
+			}
+		},
+		isEventInstruct: function(type) {
+			return ["click"].indexOf(type) != -1;
+		},
 		instruct: {
 			text: function(value, jqueryObject) {
 				jqueryObject.text(value);
 				return jqueryObject;
 			},
 			click: function(fn, jqueryObject) {
+				var fn = ko.util.decodeFunction(fn);
 				return jqueryObject.click(function() {
 					fn && fn.call(jqueryObject);
 				});
