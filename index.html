@@ -5,11 +5,11 @@
 </head>
 <body>
 	<template id="test">
-		<div data-bind="text: (function() {return 12313;})()">
-			
+		<div data-bind="text: (function() {return x.y();})()">
+
 		</div>
-		<div data-bind="click: function() {alert('hello..all');}">
-			please click me
+		<div data-bind="click: sayHello">
+			please click me(2)
 		</div>
 	</template>
 </body>

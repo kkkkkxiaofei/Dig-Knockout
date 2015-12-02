@@ -43,7 +43,7 @@
 		render: function(realDom, viewModel, attrValue) {
 			var instruct = ko.util.getInstructByAttributeValue(attrValue);
 			var value = ko.util.getValueByInstruct(instruct, viewModel);
-			return ko.util.instruct[instruct.type].call(this, value, $(realDom));
+			return ko.util.instruct[instruct.type].call(this, value, $(realDom), viewModel);
 		} 
 	};
 
@@ -81,13 +81,13 @@
 			if(ko.util.isEventInstruct(instruct.type)) {
 				var value = findValueByPropertyChain(instruct.chain, viewModel);
 				if(!value) {
-					return ko.util.decodeFn(instruct.chain);
+					return instruct.chain;
 				}
 				return value;
 			} else {
 				var value = findValueByPropertyChain(instruct.chain, viewModel);
 				if(!value) {
-					return ko.util.decodeValue(instruct.chain);
+					return ko.util.decodeValue(instruct.chain, viewModel);
 				}
 				return value;
 			}
@@ -105,18 +105,24 @@
 				return value;
 			}
 		},
-		decodeFn: function(expression) {
+		decodeFn: function(expression, viewModel) {
 			var type = expression.constructor.name;
 			if(type == "String") {
 				expression = "var newFn = " + expression;
-				eval.call(null, expression);
-				return newFn;
+				with(viewModel) {
+					eval.call(null, expression);
+					return newFn;
+				}
+			} else if(type == "Function") {
+				return expression;
 			}
 		},
-		decodeValue: function(expression) {
+		decodeValue: function(expression, viewModel) {
 			var type = expression.constructor.name;
 			if(type == "String") {
-				return eval.call(null, expression);
+				with(viewModel) {
+					return eval(expression);
+				}
 			}
 		},
 		isEventInstruct: function(type) {
@@ -127,9 +133,12 @@
 				jqueryObject.text(value);
 				return jqueryObject;
 			},
-			click: function(fn, jqueryObject) {
+			click: function(fn, jqueryObject, viewModel) {
+				var fn = ko.util.decodeFn(fn, viewModel);
 				return jqueryObject.click(function() {
-					fn && fn.call(jqueryObject);
+					with(viewModel) {
+						fn && fn();
+					}
 				});
 			}
 		}
