@@ -108,10 +108,10 @@
 		decodeFn: function(expression, viewModel) {
 			var type = expression.constructor.name;
 			if(type == "String") {
-				expression = "var newFn = " + expression;
+				expression = "var expression = " + expression;
 				with(viewModel) {
-					eval.call(null, expression);
-					return newFn;
+					eval(expression);
+					return expression;
 				}
 			} else if(type == "Function") {
 				return expression;
