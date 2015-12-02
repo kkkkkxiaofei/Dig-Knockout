@@ -1,3 +1,8 @@
+/*
+*       Author: kkkkkxiaofei.github.io
+*         Date: 2015.12.2
+*  Information: This library will show the deep know of MVVM framewrok, for example Knockoutjs
+*/
 (function(root, $) {
 	var root = root;
 	var $ = $;
@@ -9,6 +14,7 @@
 				var result = renderTemplate(fragmentContent[i], viewModel);
 				$('body').append($(result));
 			}
+
 
 			function renderTemplate(root, viewModel) {
 				var realSubNodes = ko.util.splitSubRealDoms(root);
@@ -26,7 +32,6 @@
 							var node = realNodes[i];
 							var attrValue = ko.util.getTag(node.attributes);
 							var firstElementChild = node.firstElementChild;	
-							var jqueryFather = $(node);
 							if(firstElementChild) {
 								renderTemplate(node, viewModel);
 							} else {

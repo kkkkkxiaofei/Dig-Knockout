@@ -10,6 +10,11 @@
 		</div>
 		<div data-bind="click: function() {alert(123123);return sayHello();}">
 			please click me(2)
+			<div data-bind="text: name">
+				<div data-bind="click: function() {alert('hello');}">
+					say hello
+				</div>
+			</div>
 		</div>
 	</template>
 </body>
