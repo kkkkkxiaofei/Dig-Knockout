@@ -15,13 +15,13 @@
 				$('body').append($(result));
 			}
 
-
 			function renderTemplate(root, viewModel) {
 				var realSubNodes = ko.util.splitSubRealDoms(root);
 				var rootAttrValue = ko.util.getTag(root.attributes);
 				var root = $(root);
 				if(rootAttrValue) {
 					root = ko.render(root, viewModel, rootAttrValue);
+					if(!root) return;
 				}
 				renderSubNodes(realSubNodes, viewModel);
 				realSubNodes.length > 0 && root.append(realSubNodes);
@@ -145,6 +145,10 @@
 						fn && fn();
 					}
 				});
+			},
+			if: function(value, jqueryObject) {
+				var result = value ? jqueryObject :  false;
+				return result;
 			}
 		}
 	};
