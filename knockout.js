@@ -20,36 +20,52 @@
 				var rootAttrValue = ko.util.getTag(root.attributes);
 				var root = $(root);
 				if(rootAttrValue) {
+					//except 'if','foreach', other instrcut call its handles
 					root = ko.render(root, viewModel, rootAttrValue);
-					if(!root) return;
 				}
-				renderSubNodes(realSubNodes, viewModel);
-				realSubNodes.length > 0 && root.append(realSubNodes);
+				if(root._type == "if") {
+					if(!root._value) return;
+				} else if(root._type == "foreach") {
+					if(root._value.constructor.name == "Array") {
+						if(root._value.length > 0) {
+							for(var i = 0;i < root._value.length;i++) {
+								var copy = $(realSubNodes).clone();
+								renderSubNodes(copy, viewModel);
+								copy.length > 0 && root.append(copy);
+							}
+						} else {
+							return;
+						}
+					}
+				} else {
+					renderSubNodes(realSubNodes, viewModel);
+					realSubNodes.length > 0 && root.append(realSubNodes);
+				}
+				return root;
 
 				function renderSubNodes(realNodes, viewModel) {
 					if(realNodes.length > 0) {
 						for(var i = 0;i < realNodes.length;i++) {
 							var node = realNodes[i];
 							var attrValue = ko.util.getTag(node.attributes);
-							var firstElementChild = node.firstElementChild;	
+							var firstElementChild = node.firstElementChild;
 							if(firstElementChild) {
 								renderTemplate(node, viewModel);
 							} else {
 								if(attrValue) {
 									ko.render(node, viewModel, attrValue);
 								}
-							}	
+							}
 						}
 					}
 				}
-				return root;
 			}
 		},
 		render: function(realDom, viewModel, attrValue) {
 			var instruct = ko.util.getInstructByAttributeValue(attrValue);
 			var value = ko.util.getValueByInstruct(instruct, viewModel);
 			return ko.util.instruct[instruct.type].call(this, value, $(realDom), viewModel);
-		} 
+		}
 	};
 
 	root.ko.util = {
@@ -148,7 +164,14 @@
 			},
 			if: function(value, jqueryObject) {
 				var result = value ? jqueryObject :  false;
-				return result;
+				jqueryObject._type = 'if';
+				jqueryObject._value = result;
+				return jqueryObject;
+			},
+			foreach: function(value, jqueryObject) {
+				jqueryObject._type = 'foreach';
+				jqueryObject._value = value;
+				return jqueryObject;
 			}
 		}
 	};
