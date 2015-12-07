@@ -20,11 +20,14 @@
 				var rootAttrValue = ko.util.getTag(root.attributes);
 				var root = $(root);
 				if(rootAttrValue) {
-					//except 'if','foreach', other instrcut call its handles
 					root = ko.render(root, viewModel, rootAttrValue);
 				}
+				//except 'if','foreach', other instrcut call its handles
 				if(root._type == "if") {
+					console.log(root._value);
 					if(!root._value) return;
+					renderSubNodes(realSubNodes, viewModel);
+					realSubNodes.length > 0 && root.append(realSubNodes);
 				} else if(root._type == "foreach") {
 					if(root._value.constructor.name == "Array") {
 						if(root._value.length > 0) {
@@ -163,9 +166,8 @@
 				});
 			},
 			if: function(value, jqueryObject) {
-				var result = value ? jqueryObject :  false;
 				jqueryObject._type = 'if';
-				jqueryObject._value = result;
+				jqueryObject._value = value;
 				return jqueryObject;
 			},
 			foreach: function(value, jqueryObject) {
