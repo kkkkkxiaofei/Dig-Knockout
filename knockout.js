@@ -1,7 +1,7 @@
 /*
-*       Author: kkkkkxiaofei.github.io
+*       Author: github kkkkkxiaofei
 *         Date: 2015.12.2
-*  Information: This library will show the deep know of MVVM framewrok, for example Knockoutjs
+*  Information: This library will show the deep knowledge of MVVM framewrok, for example Knockoutjs
 */
 (function(root, $) {
 	var root = root;
@@ -33,7 +33,7 @@
 						if(root._value.length > 0) {
 							for(var i = 0;i < root._value.length;i++) {
 								var copy = $(realSubNodes).clone();
-								renderSubNodes(copy, viewModel);
+								renderSubNodes(copy, root._value[i]);
 								copy.length > 0 && root.append(copy);
 							}
 						} else {

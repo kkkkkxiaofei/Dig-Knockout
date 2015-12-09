@@ -12,7 +12,11 @@
 			y: function() {
 				return "xiao fei....";
 			}
-		}
+		},
+		locations: [
+			{name: "xi an", country: "China"},
+			{name: "puna", country: "India"}
+		]
 	};
 	ko.applyBindings(viewModel, 'test');
 })(this);

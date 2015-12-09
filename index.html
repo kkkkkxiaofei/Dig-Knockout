@@ -5,8 +5,8 @@
 </head>
 <body>
 	<template id="test">
-		<div data-bind="foreach: (function(){return [123,456,789];})()">
-			<div data-bind="text: 'this is foreach bind'">
+		<div data-bind="foreach: locations">
+			<div data-bind="text: name">
 			</div>
 		</div>
 		<div data-bind="text: x.y()">
