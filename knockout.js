@@ -24,7 +24,6 @@
 				}
 				//except 'if','foreach', other instrcut call its handles
 				if(root._type == "if") {
-					console.log(root._value);
 					if(!root._value) return;
 					renderSubNodes(realSubNodes, viewModel);
 					realSubNodes.length > 0 && root.append(realSubNodes);
@@ -33,7 +32,8 @@
 						if(root._value.length > 0) {
 							for(var i = 0;i < root._value.length;i++) {
 								var copy = $(realSubNodes).clone();
-								renderSubNodes(copy, root._value[i]);
+								var scope = root._value[i].constructor.name == "Object" ? root._value[i] : viewModel;
+								renderSubNodes(copy, scope);
 								copy.length > 0 && root.append(copy);
 							}
 						} else {

@@ -14,8 +14,10 @@
 			}
 		},
 		locations: [
-			{name: "xi an", country: "China"},
-			{name: "puna", country: "India"}
+			{
+				name: "xi an",
+				nums: [1,2,3]
+			}
 		]
 	};
 	ko.applyBindings(viewModel, 'test');

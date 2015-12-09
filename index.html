@@ -5,8 +5,12 @@
 </head>
 <body>
 	<template id="test">
-		<div data-bind="foreach: locations">
-			<div data-bind="text: name">
+		<div data-bind="foreach: [1,2,3]">
+			<div data-bind="foreach: locations">
+				<div data-bind="foreach: nums">
+					<div data-bind="text: 'foreach test'">
+					</div>
+				</div>
 			</div>
 		</div>
 		<div data-bind="text: x.y()">
