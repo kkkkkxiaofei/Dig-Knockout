@@ -14,7 +14,7 @@
 				var result = renderTemplate(fragmentContent[i], viewModel);
 				$('body').append($(result));
 			}
-
+			$('#' + id).remove();
 			function renderTemplate(root, viewModel) {
 				var realSubNodes = ko.util.splitSubRealDoms(root);
 				var rootAttrValue = ko.util.getTag(root.attributes);
