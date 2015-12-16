@@ -69,7 +69,7 @@
 			return ko.util.instruct[instruct.type].call(this, value, $(realDom), viewModel);
 		},
 		observable: function(defaultValue) {
-			var self = this;
+			var self = {};
 			var value = defaultValue;
 			Object.defineProperty(self, 'value', {
 				get: function() {
@@ -87,6 +87,43 @@
 				}
 			};
 			fn.isObservable = true; 
+
+			return fn;
+		},
+		observableArray: function(defaultValue) {
+			if(defaultValue && defaultValue.constructor.name != 'Array') {
+				throw "observableArray param must be array."
+			}
+			var self = {};
+			var value = defaultValue;
+			Object.defineProperty(self, 'value', {
+				get: function() {
+					return value;
+				},
+				set: function(val) {
+					value = val;
+				}
+			});
+			var fn = function(val) {
+				if(val) {
+				  	self.value = val;
+				} else {
+				  	return self.value;
+				}
+			};
+			fn.isObservable = true; 
+
+			var keys = ["pop", "push", "reverse", "shift", "sort", "splice", "unshift", "concat", "join", "slice", "indexOf", "lastIndexOf", "forEach", "every", "map", "some", "reduce", "reduceRight", "each", "clone", "min", "max", "average", "sum", "unique", "shuffle", "pluck"];
+			for(var i in keys) {
+				var key = keys[i];
+				fn[key] = (function(key) {
+					return function() {
+						var elements = ko.unwrap(fn);
+						elements[key] && elements[key].apply(elements, arguments);
+						fn(elements);
+					};
+				})(key);
+			}
 
 			return fn;
 		},
