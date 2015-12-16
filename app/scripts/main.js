@@ -1,6 +1,6 @@
 (function() {
 	var viewModel = {
-		name: "hello, i'm xiao fei",
+		name: ko.observable("hello, i'm xiao fei"),
 		info: "github: kkkkkxiaofei",
 		messages: [
 			{

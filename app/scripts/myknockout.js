@@ -79,14 +79,19 @@
 					value = val;
 				}
 			});
-
-			return function(val) {
+			var fn = function(val) {
 				if(val) {
 				  	self.value = val;
 				} else {
 				  	return self.value;
 				}
-			}; 
+			};
+			fn.isObservable = true; 
+
+			return fn;
+		},
+		unwrap: function(obj) {
+			return obj.isObservable ? obj() : obj;
 		}
 	};
 
@@ -173,11 +178,11 @@
 		},
 		instruct: {
 			text: function(value, jqueryObject) {
-				jqueryObject.text(value);
+				jqueryObject.text(ko.unwrap(value));
 				return jqueryObject;
 			},
 			click: function(fn, jqueryObject, viewModel) {
-				var fn = ko.util.decodeFn(fn, viewModel);
+				var fn = ko.util.decodeFn(ko.unwrap(fn), viewModel);
 				return jqueryObject.click(function() {
 					with(viewModel) {
 						fn && fn();
@@ -186,14 +191,15 @@
 			},
 			if: function(value, jqueryObject) {
 				jqueryObject._type = 'if';
-				jqueryObject._value = value;
+				jqueryObject._value = ko.unwrap(value);
 				return jqueryObject;
 			},
 			foreach: function(value, jqueryObject) {
 				jqueryObject._type = 'foreach';
-				jqueryObject._value = value;
+				jqueryObject._value = ko.unwrap(value);
 				return jqueryObject;
 			}
 		}
 	};
+
 })(this, $);
