@@ -67,6 +67,26 @@
 			var instruct = ko.util.getInstructByAttributeValue(attrValue);
 			var value = ko.util.getValueByInstruct(instruct, viewModel);
 			return ko.util.instruct[instruct.type].call(this, value, $(realDom), viewModel);
+		},
+		observable: function(defaultValue) {
+			var self = this;
+			var value = defaultValue;
+			Object.defineProperty(self, 'value', {
+				get: function() {
+					return value;
+				},
+				set: function(val) {
+					value = val;
+				}
+			});
+
+			return function(val) {
+				if(val) {
+				  	self.value = val;
+				} else {
+				  	return self.value;
+				}
+			}; 
 		}
 	};
 
