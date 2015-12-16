@@ -3,10 +3,9 @@
 *         Date: 2015.12.2
 *  Information: This library will show the deep knowledge of MVVM framewrok, for example Knockoutjs
 */
-(function(root, $) {
-	var root = root;
+(function(scope, $) {
 	var $ = $;
-	root.ko = {
+	scope.ko = {
 		applyBindings: function(viewModel, id) {
 			var clone = document.importNode(document.querySelector('#' + id).content, true);
 			var fragmentContent = ko.util.splitSubRealDoms(clone);
@@ -71,7 +70,7 @@
 		}
 	};
 
-	root.ko.util = {
+	scope.ko.util = {
 		splitSubRealDoms: function(fatherDom) {
 			var subRealDoms = [];
 			while(fatherDom.firstElementChild) {
