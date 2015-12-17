@@ -60,6 +60,9 @@
 				$('body').append($(result));
 			}
 			$('#' + id).remove();
+			if(!ko._viewModel) {
+				ko._viewModel = viewModel;
+			}
 		},
 		render: function(realDom, viewModel, attrValue) {
 			var instruct = ko.util.getInstructByAttributeValue(attrValue);
@@ -87,7 +90,7 @@
 				set: function(val) {
 					value = val;
 					var observableObj = fn;
-					var result = ko.renderTemplate(fn._target, window.viewModel);
+					var result = ko.renderTemplate(fn._target, ko._viewModel);
 				}
 			});
 
