@@ -7,7 +7,7 @@
 	scope.ko = {
 		renderTemplate: function(root, viewModel) {
 			var realSubNodes = ko.util.splitSubRealDoms(root);
-			var rootAttrValue = ko.util.getTag(root.attributes);
+			var rootAttrValue = ko.util.getTag(root.attributes || root[0].attributes);
 			var root = $(root);
 			if(rootAttrValue) {
 				root = ko.render(root, viewModel, rootAttrValue);
@@ -72,14 +72,6 @@
 		observable: function(defaultValue) {
 			var self = {};
 			var value = defaultValue;
-			Object.defineProperty(self, 'value', {
-				get: function() {
-					return value;
-				},
-				set: function(val) {
-					value = val;
-				}
-			});
 			var fn = function(val) {
 				if(val) {
 				  	self.value = val;
@@ -88,6 +80,16 @@
 				}
 			};
 			fn.isObservable = true; 
+			Object.defineProperty(self, 'value', {
+				get: function() {
+					return value;
+				},
+				set: function(val) {
+					value = val;
+					var observableObj = fn;
+					var result = ko.renderTemplate(fn._target, window.viewModel);
+				}
+			});
 
 			return fn;
 		},

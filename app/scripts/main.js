@@ -21,5 +21,6 @@
 			}
 		]
 	};
+	window.viewModel = viewModel;
 	ko.applyBindings(viewModel, 'test');
 })(this);
