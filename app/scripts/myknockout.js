@@ -4,68 +4,69 @@
 *  Information: This library will show the deep knowledge of MVVM framewrok, for example Knockoutjs
 */
 (function(scope, $) {
-	var $ = $;
 	scope.ko = {
-		applyBindings: function(viewModel, id) {
-			var clone = document.importNode(document.querySelector('#' + id).content, true);
-			var fragmentContent = ko.util.splitSubRealDoms(clone);
-			for(var i = 0;i < fragmentContent.length;i++) {
-				var result = renderTemplate(fragmentContent[i], viewModel);
-				$('body').append($(result));
+		renderTemplate: function(root, viewModel) {
+			var realSubNodes = ko.util.splitSubRealDoms(root);
+			var rootAttrValue = ko.util.getTag(root.attributes);
+			var root = $(root);
+			if(rootAttrValue) {
+				root = ko.render(root, viewModel, rootAttrValue);
 			}
-			$('#' + id).remove();
-			function renderTemplate(root, viewModel) {
-				var realSubNodes = ko.util.splitSubRealDoms(root);
-				var rootAttrValue = ko.util.getTag(root.attributes);
-				var root = $(root);
-				if(rootAttrValue) {
-					root = ko.render(root, viewModel, rootAttrValue);
-				}
-				//except 'if','foreach', other instrcut call its handles
-				if(root._type == "if") {
-					if(!root._value) return;
-					renderSubNodes(realSubNodes, viewModel);
-					realSubNodes.length > 0 && root.append(realSubNodes);
-				} else if(root._type == "foreach") {
-					if(root._value.constructor.name == "Array") {
-						if(root._value.length > 0) {
-							for(var i = 0;i < root._value.length;i++) {
-								var copy = $(realSubNodes).clone();
-								var scope = root._value[i].constructor.name == "Object" ? root._value[i] : viewModel;
-								renderSubNodes(copy, scope);
-								copy.length > 0 && root.append(copy);
-							}
-						} else {
-							return;
+			//except 'if','foreach', other instrcut call its handles
+			if(root._type == "if") {
+				if(!root._value) return;
+				ko.renderSubNodes(realSubNodes, viewModel);
+				realSubNodes.length > 0 && root.append(realSubNodes);
+			} else if(root._type == "foreach") {
+				if(root._value.constructor.name == "Array") {
+					if(root._value.length > 0) {
+						for(var i = 0;i < root._value.length;i++) {
+							var copy = $(realSubNodes).clone();
+							var scope = root._value[i].constructor.name == "Object" ? root._value[i] : viewModel;
+							ko.renderSubNodes(copy, scope);
+							copy.length > 0 && root.append(copy);
 						}
+					} else {
+						return;
 					}
-				} else {
-					renderSubNodes(realSubNodes, viewModel);
-					realSubNodes.length > 0 && root.append(realSubNodes);
 				}
-				return root;
-
-				function renderSubNodes(realNodes, viewModel) {
-					if(realNodes.length > 0) {
-						for(var i = 0;i < realNodes.length;i++) {
-							var node = realNodes[i];
-							var attrValue = ko.util.getTag(node.attributes);
-							var firstElementChild = node.firstElementChild;
-							if(firstElementChild) {
-								renderTemplate(node, viewModel);
-							} else {
-								if(attrValue) {
-									ko.render(node, viewModel, attrValue);
-								}
-							}
+			} else {
+				ko.renderSubNodes(realSubNodes, viewModel);
+				realSubNodes.length > 0 && root.append(realSubNodes);
+			}
+			return root;
+		},
+		renderSubNodes: function(realNodes, viewModel) {
+			if(realNodes.length > 0) {
+				for(var i = 0;i < realNodes.length;i++) {
+					var node = realNodes[i];
+					var attrValue = ko.util.getTag(node.attributes);
+					var firstElementChild = node.firstElementChild;
+					if(firstElementChild) {
+						ko.renderTemplate(node, viewModel);
+					} else {
+						if(attrValue) {
+							ko.render(node, viewModel, attrValue);
 						}
 					}
 				}
 			}
 		},
+		applyBindings: function(viewModel, id) {
+			var clone = document.importNode(document.querySelector('#' + id).content, true);
+			var fragmentContent = ko.util.splitSubRealDoms(clone);
+			for(var i = 0;i < fragmentContent.length;i++) {
+				var result = ko.renderTemplate(fragmentContent[i], viewModel);
+				$('body').append($(result));
+			}
+			$('#' + id).remove();
+		},
 		render: function(realDom, viewModel, attrValue) {
 			var instruct = ko.util.getInstructByAttributeValue(attrValue);
 			var value = ko.util.getValueByInstruct(instruct, viewModel);
+			if(value.isObservable) {
+				value._target = realDom;
+			}
 			return ko.util.instruct[instruct.type].call(this, value, $(realDom), viewModel);
 		},
 		observable: function(defaultValue) {
