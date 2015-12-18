@@ -6,8 +6,13 @@
 (function(scope, $) {
 	scope.ko = {
 		renderTemplate: function(root, viewModel) {
+			var root = ko.util.decodeJqueryObject(root);
 			var realSubNodes = ko.util.splitSubRealDoms(root);
-			var rootAttrValue = ko.util.getTag(root.attributes || root[0].attributes);
+			if(!root._originalSubNodes) {
+				root._originalSubNodes = realSubNodes;
+			}
+			var subNodes = root._originalSubNodes || realSubNodes;
+			var rootAttrValue = ko.util.getTag(root.attributes);
 			var root = $(root);
 			if(rootAttrValue) {
 				root = ko.render(root, viewModel, rootAttrValue);
@@ -15,13 +20,13 @@
 			//except 'if','foreach', other instrcut call its handles
 			if(root._type == "if") {
 				if(!root._value) return;
-				ko.renderSubNodes(realSubNodes, viewModel);
-				realSubNodes.length > 0 && root.append(realSubNodes);
+				ko.renderSubNodes(subNodes, viewModel);
+				subNodes.length > 0 && root.append(subNodes);
 			} else if(root._type == "foreach") {
 				if(root._value.constructor.name == "Array") {
 					if(root._value.length > 0) {
 						for(var i = 0;i < root._value.length;i++) {
-							var copy = $(realSubNodes).clone();
+							var copy = $(subNodes).clone();
 							var scope = root._value[i].constructor.name == "Object" ? root._value[i] : viewModel;
 							ko.renderSubNodes(copy, scope);
 							copy.length > 0 && root.append(copy);
@@ -68,7 +73,9 @@
 			var instruct = ko.util.getInstructByAttributeValue(attrValue);
 			var value = ko.util.getValueByInstruct(instruct, viewModel);
 			if(value.isObservable) {
-				value._target = realDom;
+				if(!value._target) {
+					value._target = realDom;
+				}
 			}
 			return ko.util.instruct[instruct.type].call(this, value, $(realDom), viewModel);
 		},
@@ -102,14 +109,6 @@
 			}
 			var self = {};
 			var value = defaultValue;
-			Object.defineProperty(self, 'value', {
-				get: function() {
-					return value;
-				},
-				set: function(val) {
-					value = val;
-				}
-			});
 			var fn = function(val) {
 				if(val) {
 				  	self.value = val;
@@ -130,6 +129,16 @@
 					};
 				})(key);
 			}
+			Object.defineProperty(self, 'value', {
+				get: function() {
+					return value;
+				},
+				set: function(val) {
+					value = val;
+					var observableObj = fn;
+					var result = ko.renderTemplate(fn._target, ko._viewModel);
+				}
+			});
 
 			return fn;
 		},
@@ -139,6 +148,9 @@
 	};
 
 	scope.ko.util = {
+		decodeJqueryObject: function(jqueryObject) {
+			return (jqueryObject instanceof $) ? jqueryObject.get(0) : jqueryObject;
+		},
 		splitSubRealDoms: function(fatherDom) {
 			var subRealDoms = [];
 			while(fatherDom.firstElementChild) {
