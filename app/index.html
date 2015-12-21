@@ -54,7 +54,15 @@
                 <p data-bind="text: content"></p>
               </div>
             </div>
-
+            <div class="row marketing">
+              <div data-bind="foreach: locations">
+                <div class="col-lg-6" data-bind="foreach: cities">
+                  <h4>
+                      <a href="https://html5boilerplate.com/" data-bind="text: name"></a>
+                  </h4>
+                </div>
+              </div>
+            </div>
             <div class="footer">
               <p><span class="glyphicon glyphicon-heart"></span> from the Yeoman team</p>
             </div>

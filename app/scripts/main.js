@@ -19,6 +19,28 @@
 				title: "Modernizr",
 				content: "Modernizr is an open-source JavaScript library that helps you build the next generation of HTML5 and CSS3-powered websites."
 			}
+		]),
+		locations: ko.observableArray([
+			{
+				cities: [
+					{
+						name: "xi an"
+					},
+					{
+						name: "shang hai"
+					},
+				]
+			},
+			{
+				cities: [
+					{
+						name: "wu han"
+					},
+					{
+						name: "bei jing"
+					},
+				]
+			},
 		])
 	};
 	window.viewModel = viewModel;
