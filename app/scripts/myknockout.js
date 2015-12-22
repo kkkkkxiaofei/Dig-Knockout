@@ -108,7 +108,7 @@
 				throw "observableArray param must be array."
 			}
 			var self = {};
-			var value = defaultValue;
+			var value = defaultValue || [];
 			var fn = function(val) {
 				if(val) {
 				  	self.value = val;
