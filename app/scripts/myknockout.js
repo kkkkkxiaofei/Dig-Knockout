@@ -96,8 +96,7 @@
 				},
 				set: function(val) {
 					value = val;
-					var observableObj = fn;
-					var result = ko.renderTemplate(fn._target, ko._viewModel);
+					fn._target && ko.renderTemplate(fn._target, ko._viewModel);
 				}
 			});
 
@@ -135,8 +134,7 @@
 				},
 				set: function(val) {
 					value = val;
-					var observableObj = fn;
-					var result = ko.renderTemplate(fn._target, ko._viewModel);
+					fn._target && ko.renderTemplate(fn._target, ko._viewModel);
 				}
 			});
 
