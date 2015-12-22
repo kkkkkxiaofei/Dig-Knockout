@@ -17,7 +17,7 @@ Installing Dependencies
 
 Run
 =======================
-    * `grunt `
+    * `grunt`
 
 Demo
 ================
