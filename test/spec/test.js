@@ -2,9 +2,9 @@
 	'use strict';
 
 	describe('Render DOM', function () {
-		describe('render template', function () {
-			var template = '<div data-bind="text: name">' +
-    						+ '</div>';
+		
+		describe('render simple template with text binding', function () {
+			var template = $('#fixture1').html();
     		var root = $(template).get(0);
     		var viewModel = {
     			name: "xiaofei"
@@ -16,5 +16,6 @@
 				assert.equal(result.text(), "xiaofei");
 			});
 		});
+
 	});
 })();
