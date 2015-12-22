@@ -251,6 +251,12 @@
 				jqueryObject._type = 'foreach';
 				jqueryObject._value = ko.unwrap(value);
 				return jqueryObject;
+			},
+			input: function(value, jqueryObject) {
+				jqueryObject.keyup(function(e) {
+					var val = $(e.target).val();
+					value(val);
+				});
 			}
 		}
 	};
