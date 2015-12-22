@@ -17,5 +17,20 @@
 			});
 		});
 
+		describe('render complicated template with text binding', function () {
+			var template = $('#fixture2').html();
+    		var root = $(template).get(0);
+    		var viewModel = {
+    			title: "mvvm",
+    		};
+
+    		var result = ko.renderTemplate(root, viewModel);
+
+			it('should be subtree with 5 levels', function () {
+				assert.equal(result.text(), "mvvmmvvmmvvmmvvmmvvmmvvm");
+				assert.equal(result.find('div').length, 5);
+			});
+		});
+
 	});
 })();

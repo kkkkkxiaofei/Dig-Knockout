@@ -10,6 +10,20 @@
     <template id="fixture1">
       <div data-bind="text: name"></div>
     </template>
+    <template id="fixture2">
+      <div data-bind="text: title">
+          <div data-bind="text: title">
+            <div data-bind="text: title">
+              <div data-bind="text: title">
+                <div data-bind="text: title">
+                  <div data-bind="text: title">
+                  </div>
+                </div>
+              </div>
+            </div>  
+          </div>
+      </div>
+    </template>
   </div>
   <script src="../bower_components/mocha/mocha.js"></script>
   <script>mocha.setup('bdd');</script>
