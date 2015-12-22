@@ -1,11 +1,20 @@
 (function () {
-  'use strict';
+	'use strict';
 
-  describe('Give it some context', function () {
-    describe('maybe a bit more context here', function () {
-      it('should run here few assertions', function () {
+	describe('Render DOM', function () {
+		describe('render template', function () {
+			var template = '<div data-bind="text: name">' +
+    						+ '</div>';
+    		var root = $(template).get(0);
+    		var viewModel = {
+    			name: "xiaofei"
+    		};
 
-      });
-    });
-  });
+    		var result = ko.renderTemplate(root, viewModel);
+
+			it('should be same with name', function () {
+				assert.equal(result.text(), "xiaofei");
+			});
+		});
+	});
 })();
