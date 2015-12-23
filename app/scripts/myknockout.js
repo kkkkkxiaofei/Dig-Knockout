@@ -30,7 +30,8 @@
 					if(root._value.length > 0) {
 						for(var i = 0;i < root._value.length;i++) {
 							var copy = $(subNodes).clone();
-							var scope = root._value[i].constructor.name == "Object" ? root._value[i] : viewModel;
+							var type = root._value[i].constructor.name;
+							var scope = (type == "Object" || type == "Function") ? root._value[i] : viewModel;
 							ko.renderSubNodes(copy, scope);
 							copy.length > 0 && root.append(copy);
 						}
@@ -75,7 +76,7 @@
 		},
 		render: function(realDom, viewModel, attrValue) {
 			var instruct = ko.util.getInstructByAttributeValue(attrValue);
-			var value = ko.util.getValueByInstruct(instruct, viewModel);
+			var value = ko.util.getValueByInstruct(instruct, ko.unwrap(viewModel));
 			if(value.isObservable) {
 				if(!value._target) {
 					value._target = realDom;
