@@ -98,5 +98,21 @@
 
 		});
 
+		describe('render template with input binding', function () {
+			var template = $('#fixture6').html();
+    		var root = $(template).get(0);
+    		var name;
+    		var viewModel = {
+    			name: "xiaofei"
+    		};
+
+    		var result = ko.renderTemplate(root, viewModel);
+
+			it('should have the same value with name', function () {
+				assert.equal(result.val(), "xiaofei");
+			});
+
+		});
+
 	});
 })();

@@ -41,7 +41,10 @@
       <div data-bind="foreach: locations">
         <p data-bind="text: name"></p>
       </div>
-    </template>  
+    </template>
+    <template id="fixture6">
+      <input data-bind="input: name">
+    </template>   
   </div>
   <script src="../bower_components/mocha/mocha.js"></script>
   <script>mocha.setup('bdd');</script>
