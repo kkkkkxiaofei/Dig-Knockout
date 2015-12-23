@@ -61,6 +61,7 @@
 			}
 		},
 		applyBindings: function(viewModel, id) {
+			ko.$scope = viewModel;
 			var clone = document.importNode(document.querySelector('#' + id).content, true);
 			var fragmentContent = ko.util.splitSubRealDoms(clone);
 			for(var i = 0;i < fragmentContent.length;i++) {
@@ -181,7 +182,7 @@
 		getValueByInstruct: function(instruct, viewModel) {
 			var type = instruct.chain.constructor.name;
 			if(ko.util.isEventInstruct(instruct.type)) {
-				var value = findValueByPropertyChain(instruct.chain, viewModel);
+				var value = findValueByPropertyChain(instruct.chain, ko.$scope);
 				if(!value) {
 					return instruct.chain;
 				}
