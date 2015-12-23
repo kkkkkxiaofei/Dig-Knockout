@@ -69,5 +69,34 @@
 
 		});
 
+		describe('render template with foreach binding', function () {
+			var template = $('#fixture5').html();
+    		var root = $(template).get(0);
+    		var name;
+    		var viewModel = {
+    			locations: [{
+    				name: "xian"
+    			},
+    			{
+    				name: "beijing"
+    			},
+    			{
+    				name: "shanghai"
+    			}]
+    		};
+
+    		var result = ko.renderTemplate(root, viewModel);
+
+			it('should have three children nodes', function () {
+				assert.equal(result.find('p').length, 3);
+			});
+			it('should render location name', function () {
+				assert.equal(result.find('p').eq(0).text().trim(), "xian");
+				assert.equal(result.find('p').eq(1).text().trim(), "beijing");
+				assert.equal(result.find('p').eq(2).text().trim(), "shanghai");
+			});
+
+		});
+
 	});
 })();
