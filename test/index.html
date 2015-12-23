@@ -26,7 +26,17 @@
     </template>
     <template id="fixture3">
       <div data-bind="click: setName"></div>
-    </template> 
+    </template>
+    <template id="fixture4">
+      <div>
+        <div data-bind="if: show" id="show1">
+          <p>xiaofei</p>
+        </div>
+        <div data-bind="if: !show" id="show2">
+          <p>xiaofei</p>
+        </div>
+      </div>
+    </template>  
   </div>
   <script src="../bower_components/mocha/mocha.js"></script>
   <script>mocha.setup('bdd');</script>

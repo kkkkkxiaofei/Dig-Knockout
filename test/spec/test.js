@@ -50,5 +50,24 @@
 			});
 		});
 
+		describe('render template with if binding', function () {
+			var template = $('#fixture4').html();
+    		var root = $(template).get(0);
+    		var name;
+    		var viewModel = {
+    			show: false
+    		};
+
+    		var result = ko.renderTemplate(root, viewModel);
+
+			it('should have no children nodes', function () {
+				assert.equal(result.find('#show1').text().trim(), "");
+			});
+			it('should have children nodes', function () {
+				assert.equal(result.find('#show2').text().trim(), "xiaofei");
+			});
+
+		});
+
 	});
 })();
