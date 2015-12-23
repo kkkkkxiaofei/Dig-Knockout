@@ -32,5 +32,23 @@
 			});
 		});
 
+		describe('render simple template with click binding', function () {
+			var template = $('#fixture3').html();
+    		var root = $(template).get(0);
+    		var name;
+    		var viewModel = {
+    			setName: function() {
+    				name = "xiaofei";
+    			}
+    		};
+
+    		var result = ko.renderTemplate(root, viewModel);
+    		result.click();
+
+			it('should be update name after click', function () {
+				assert.equal(name, "xiaofei");
+			});
+		});
+
 	});
 })();
