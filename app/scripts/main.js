@@ -2,6 +2,7 @@
 	var viewModel = {
 		name: ko.observable("hello, i'm xiao fei"),
 		info: "github: kkkkkxiaofei",
+		show: ko.observable(false),
 		messages: ko.observableArray([
 			{
 				title: "HTML5 Boilerplate",

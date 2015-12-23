@@ -22,6 +22,9 @@
 				if(!root._value) return;
 				ko.renderSubNodes(subNodes, viewModel);
 				subNodes.length > 0 && root.append(subNodes);
+				if(root.parent().length == 0) {
+					$('body').append(root);
+				}
 			} else if(root._type == "foreach") {
 				if(root._value.constructor.name == "Array") {
 					if(root._value.length > 0) {

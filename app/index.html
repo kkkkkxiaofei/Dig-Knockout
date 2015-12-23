@@ -27,7 +27,7 @@
     <![endif]-->
 
     <template id="test">
-        <div class="container">
+        <div class="container" data-bind="if: show">
             <div class="header">
               <ul class="nav nav-pills pull-right">
                 <li class="active"><a href="#">Home</a></li>
@@ -56,12 +56,8 @@
             </div>
             <div class="row marketing">
               <div data-bind="foreach: locations">
-                <div class="col-lg-6" data-bind="foreach: cities">
-                  <h4>
-                      <a href="https://html5boilerplate.com/" data-bind="text: name"></a>
-                  </h4>
-                </div>
               </div>
+              
             </div>
             <div>
               <input type="text" data-bind="input: name">
