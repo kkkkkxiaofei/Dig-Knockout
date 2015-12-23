@@ -86,11 +86,10 @@
 			var self = {};
 			var value = defaultValue;
 			var fn = function(val) {
-				if(val) {
+				if(arguments.length != 0) {
 				  	self.value = val;
-				} else {
-				  	return self.value;
 				}
+				return self.value;
 			};
 			fn.isObservable = true; 
 			Object.defineProperty(self, 'value', {
@@ -112,11 +111,10 @@
 			var self = {};
 			var value = defaultValue || [];
 			var fn = function(val) {
-				if(val) {
+				if(arguments.length != 0) {
 				  	self.value = val;
-				} else {
-				  	return self.value;
 				}
+				return self.value;
 			};
 			fn.isObservable = true; 
 
