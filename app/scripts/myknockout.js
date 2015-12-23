@@ -240,7 +240,7 @@
 				var fn = ko.util.decodeFn(ko.unwrap(fn), viewModel);
 				return jqueryObject.click(function() {
 					with(viewModel) {
-						fn && fn();
+						fn && fn(viewModel);
 					}
 				});
 			},
