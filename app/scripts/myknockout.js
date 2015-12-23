@@ -257,6 +257,7 @@
 					var val = $(e.target).val();
 					value(val);
 				});
+				return jqueryObject.val(ko.unwrap(value));
 			}
 		}
 	};
