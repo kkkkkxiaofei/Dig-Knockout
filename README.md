@@ -18,9 +18,14 @@ Installing Dependencies
 3. Install grunt
     * `npm install -g grunt-cli `
 
-Start Serve By Default Grunt Task
+Grunt Task
 =======================
+1. Start Server
     * `grunt `
+2. Run Test
+    * `grunt test `
+3. Build App
+    * `grunt build `
 
 Demo
 ================
