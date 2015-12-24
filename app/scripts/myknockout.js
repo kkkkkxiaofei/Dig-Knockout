@@ -183,7 +183,7 @@
 		getValueByInstruct: function(instruct, viewModel) {
 			var type = instruct.chain.constructor.name;
 			if(ko.util.isEventInstruct(instruct.type)) {
-				var value = findValueByPropertyChain(instruct.chain, ko.$scope);
+				var value = findValueByPropertyChain(instruct.chain, ko.$scope || viewModel);
 				if(!value) {
 					return instruct.chain;
 				}
