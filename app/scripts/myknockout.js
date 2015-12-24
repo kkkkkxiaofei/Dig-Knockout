@@ -34,6 +34,11 @@
 							var scope = (type == "Object" || type == "Function") ? root._value[i] : viewModel;
 							ko.renderSubNodes(copy, scope);
 							copy.length > 0 && root.append(copy);
+							if(scope.isObservable) {
+								if(!scope._target) {
+									scope._target = copy;
+								}
+							}
 						}
 					} else {
 						return;
