@@ -105,7 +105,7 @@
 				},
 				set: function(val) {
 					value = val;
-					fn._target && ko.renderTemplate(fn._target, ko._viewModel);
+					fn._target && ko.renderTemplate(fn._target, fn);
 				}
 			});
 
