@@ -35,9 +35,7 @@
 							ko.renderSubNodes(copy, scope);
 							copy.length > 0 && root.append(copy);
 							if(scope.isObservable) {
-								if(!scope._target) {
-									scope._target = copy;
-								}
+								scope._target = copy;
 							}
 						}
 					} else {
@@ -83,9 +81,7 @@
 			var instruct = ko.util.getInstructByAttributeValue(attrValue);
 			var value = ko.util.getValueByInstruct(instruct, ko.unwrap(viewModel));
 			if(value.isObservable) {
-				if(!value._target) {
-					value._target = realDom;
-				}
+				value._target = realDom;
 			}
 			return ko.util.instruct[instruct.type].call(this, value, $(realDom), viewModel);
 		},
