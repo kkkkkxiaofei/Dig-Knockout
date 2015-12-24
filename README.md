@@ -14,10 +14,10 @@ Installing Dependencies
 1. Install Javascript Libraries
     * `bower install `
 2. Install node_modules
-
+    * `npm install `
 Run
 =======================
-    * `grunt`
+    * `grunt `
 
 Demo
 ================
