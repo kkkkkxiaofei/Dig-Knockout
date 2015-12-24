@@ -15,7 +15,10 @@ Installing Dependencies
     * `bower install `
 2. Install node_modules
     * `npm install `
-Run
+3. Install grunt
+    * `npm install -g grunt-cli `
+
+Start Serve By Default Grunt Task
 =======================
     * `grunt `
 
