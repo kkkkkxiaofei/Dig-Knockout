@@ -61,6 +61,20 @@
 			});
 		});
 
+		describe('get instruct by attribute value', function() {
+			var template1 = '<div data-bind="if: name">' 
+				      	+ '</div>';
+			var dom1 = $(template1).get(0);
+			var tag = ko.util.getTag(dom1.attributes);
+
+			var value = ko.util.getInstructByAttributeValue(tag);
+
+			it('should return instruct', function() {
+				assert.equal(value.type, "if");
+				assert.equal(value.chain, "name");
+			});
+
+		});
 	});	
 
 	describe('Render DOM: ', function () {
