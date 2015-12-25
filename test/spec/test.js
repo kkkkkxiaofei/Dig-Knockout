@@ -12,10 +12,32 @@
 
 			it('should return native object', function() {
 				assert.equal(result1.outerHTML, '<p>xiaofei</p>');
+				assert.equal(result2.outerHTML, '<p>xiaofei</p>');
 			});
 
-			it('should return native object', function() {
-				assert.equal(result2.outerHTML, '<p>xiaofei</p>');
+		});
+
+		describe('split sub dom', function() {
+
+			var template = '<div>' 
+					        + '<div>' 
+					        	+ '<p>shang hai</p>' 
+					        + '</div>' 
+					        + '<div>' 
+					        	+ '<p>bei jing</p>' 
+					        + '</div>' 
+				      	+ '</div>';
+			var dom = $(template).get(0);
+
+			var result = ko.util.splitSubRealDoms(dom);
+
+			it('should return two children', function() {
+				assert.equal(result.length, 2);
+			});
+
+			it('should split correctly', function() {
+				assert.equal(result[0].innerText, 'shang hai');
+				assert.equal(result[1].innerText, 'bei jing');
 			});
 		});
 	});	
