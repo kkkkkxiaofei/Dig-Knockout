@@ -1,6 +1,25 @@
 (function () {
 	'use strict';
 
+	describe('Test For Util', function () {
+
+		describe('decode jqeury object', function() {
+			var jqeuryObject = $('<p>xiaofei</p>');
+			var nativeObject = jqeuryObject.get(0);
+
+			var result1 = ko.util.decodeJqueryObject(jqeuryObject);
+			var result2 = ko.util.decodeJqueryObject(nativeObject);
+
+			it('should return native object', function() {
+				assert.equal(result1.outerHTML, '<p>xiaofei</p>');
+			});
+
+			it('should return native object', function() {
+				assert.equal(result2.outerHTML, '<p>xiaofei</p>');
+			});
+		});
+	});	
+
 	describe('Render DOM', function () {
 		
 		describe('render simple template with text binding', function () {
@@ -115,4 +134,5 @@
 		});
 
 	});
+
 })();
