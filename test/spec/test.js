@@ -1,7 +1,7 @@
 (function () {
 	'use strict';
 
-	describe('Test For Util', function () {
+	describe('Test For Util: ', function () {
 
 		describe('decode jqeury object', function() {
 			var jqeuryObject = $('<p>xiaofei</p>');
@@ -40,9 +40,30 @@
 				assert.equal(result[1].innerText, 'bei jing');
 			});
 		});
+
+		describe('get tag', function() {
+			var template1 = '<div data-bind="if: name">' 
+				      	+ '</div>';
+			var template2 = '<div>' + '</div>';
+
+			var dom1 = $(template1).get(0);
+			var dom2 = $(template2).get(0);
+
+			var result1 = ko.util.getTag(dom1.attributes);
+			var result2 = ko.util.getTag(dom2.attributes);
+
+			it('should return tag', function() {
+				assert.equal(result1, "if: name");
+			});
+
+			it('should return null', function() {
+				assert.equal(result2, null);
+			});
+		});
+
 	});	
 
-	describe('Render DOM', function () {
+	describe('Render DOM: ', function () {
 		
 		describe('render simple template with text binding', function () {
 			var template = $('#fixture1').html();
