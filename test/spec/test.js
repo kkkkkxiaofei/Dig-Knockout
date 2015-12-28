@@ -75,6 +75,23 @@
 			});
 
 		});
+
+		describe('get value by instruct', function() {
+			var instruct = {
+				type: "if",
+				chain: "name"
+			};
+			var viewModel = {
+				name: (function() {
+					return "xiaofei";
+				})()
+			}
+			var value = ko.util.getValueByInstruct(instruct, viewModel);
+			it('should return instruct', function() {
+				assert.equal(value, "xiaofei");
+			});
+
+		});
 	});	
 
 	describe('Render DOM: ', function () {
