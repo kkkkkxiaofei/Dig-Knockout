@@ -329,14 +329,15 @@
 	});
 	
 	describe('Test For Rendering DOM With Observable Bingding: ', function () {
+
 		afterEach(function() {
 			$('body').children().eq(-1).remove();
 		});
 
 		describe('text instruct with observable object', function() {
     		var viewModel = {
-    			name: "xiaofei",
-    			title: "mvvm"
+				name: ko.observable("xiaofei"),
+				title: ko.observable("mvvm")
     		};
     		ko.applyBindings(viewModel, 'fixture7');
     		var jqueryObject = $('body').children().eq(-1);
@@ -345,9 +346,21 @@
     			assert.equal(jqueryObject.children().length, 2);
     		});
 
+    		var name = jqueryObject.children().eq(0).text();
+    		var title = jqueryObject.children().eq(1).text();
     		it('should render correct sub dom', function() {
-    			assert.equal(jqueryObject.children().eq(0).text(), "xiaofeimvvm");
+    			assert.equal(name, "xiaofei");
+    			assert.equal(title, "mvvm");
     		});
+
+    		viewModel.name("new name");
+    		viewModel.title("new title");
+
+    		it('should render correct new sub dom', function() {
+    			assert.equal(jqueryObject.children().eq(0).text(), "new name");
+    			assert.equal(jqueryObject.children().eq(1).text(), "new title");
+    		});
+
 		});
 	});
 
