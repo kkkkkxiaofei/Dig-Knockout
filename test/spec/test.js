@@ -166,6 +166,20 @@
 
 		});
 
+		describe('foreach instruct', function() {
+			var template = '<div>'
+						+ '<p>xiaofei</p>' 
+				      	+ '</div>';
+			var data = [1,2,3];
+		    var jqueryObject = ko.util.instruct.foreach(data, $(template));
+
+			it('should render if instruct', function() {
+				assert.equal(jqueryObject._value, data);
+				assert.equal(jqueryObject._type, "foreach");
+			});
+
+		});
+
 
 	});	
 
