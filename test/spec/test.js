@@ -196,6 +196,22 @@
 				assert.equal(observable(), "xiaofei");
 			});
 		});
+
+		describe('observable array', function() {
+			var array = ko.observableArray();
+
+			it('should be function', function () {
+				assert.equal(array.constructor.name, "Function");
+			});
+			var data = [1,2,3,4];
+
+			array(data);
+
+			it('should return array value', function () {
+				assert.equal(array(), data);
+			});
+		});
+
 	});
 
 	describe('Test For Rendering DOM: ', function () {
