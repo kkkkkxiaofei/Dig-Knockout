@@ -4,6 +4,11 @@
   <meta charset="utf-8">
   <title>Mocha Spec Runner</title>
   <link rel="stylesheet" href="../bower_components/mocha/mocha.css">
+  <style type="text/css">
+    .field:hover {
+      border: 1px solid blue;
+    }
+  </style>
 </head>
 <body>
   <div id="mocha">
@@ -44,6 +49,18 @@
     </template>
     <template id="fixture6">
       <input data-bind="input: name">
+    </template>
+    <template id="fixture7">
+      <div>
+        <div data-bind="text: name">
+            <div data-bind="text: title">
+            </div>
+        </div>
+        <div data-bind="text: name">
+            <div data-bind="text: title">
+            </div>
+        </div>
+      </div>
     </template>   
   </div>
   <script src="../bower_components/mocha/mocha.js"></script>

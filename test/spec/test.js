@@ -180,7 +180,6 @@
 
 		});
 
-
 	});	
 	
 	describe('Test For Observable: ', function () {
@@ -214,7 +213,7 @@
 
 	});
 
-	describe('Test For Rendering DOM: ', function () {
+	describe('Test For Rendering DOM With Simple Bingding: ', function () {
 		
 		describe('render simple template with text binding', function () {
 			var template = $('#fixture1').html();
@@ -327,6 +326,29 @@
 
 		});
 
+	});
+	
+	describe('Test For Rendering DOM With Observable Bingding: ', function () {
+		afterEach(function() {
+			$('body').children().eq(-1).remove();
+		});
+
+		describe('text instruct with observable object', function() {
+    		var viewModel = {
+    			name: "xiaofei",
+    			title: "mvvm"
+    		};
+    		ko.applyBindings(viewModel, 'fixture7');
+    		var jqueryObject = $('body').children().eq(-1);
+
+    		it('should render two sub dom', function() {
+    			assert.equal(jqueryObject.children().length, 2);
+    		});
+
+    		it('should render correct sub dom', function() {
+    			assert.equal(jqueryObject.children().eq(0).text(), "xiaofeimvvm");
+    		});
+		});
 	});
 
 })();
