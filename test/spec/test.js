@@ -92,9 +92,25 @@
 			});
 
 		});
+
+		describe('decode function', function() {
+			var fn1 = function() {};
+			var fn2 = "function() {}"
+			var viewModel = {
+			}
+
+			var value1 = ko.util.decodeFn(fn1, viewModel);
+			var value2 = ko.util.decodeFn(fn2, viewModel);
+
+			it('should decode function', function() {
+				assert.equal(value1.constructor.name, "Function");
+				assert.equal(value2.constructor.name, "Function");
+			});
+		});
+
 	});	
 
-	describe('Render DOM: ', function () {
+	describe('Test For Rendering DOM: ', function () {
 		
 		describe('render simple template with text binding', function () {
 			var template = $('#fixture1').html();
