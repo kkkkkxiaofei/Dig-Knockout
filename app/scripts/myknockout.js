@@ -210,11 +210,13 @@
 				return value;
 			}
 		},
-		decodeFn: function(expression) {
+		decodeFn: function(expression, viewModel) {
 			var type = expression.constructor.name;
 			if(type == "String") {
 				expression = "var expression = " + expression;
-				eval(expression);
+				with(viewModel) {
+					eval(expression);
+				}
 				return expression;
 			} else if(type == "Function") {
 				return expression;
@@ -237,7 +239,7 @@
 				return jqueryObject;
 			},
 			click: function(fn, jqueryObject, viewModel) {
-				var fn = ko.util.decodeFn(ko.unwrap(fn));
+				var fn = ko.util.decodeFn(ko.unwrap(fn), viewModel);
 				return jqueryObject.click(function() {
 					with(viewModel) {
 						fn && fn(viewModel);

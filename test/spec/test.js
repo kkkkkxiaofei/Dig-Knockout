@@ -134,6 +134,24 @@
 
 		});
 
+		describe('click instruct', function() {
+			var template = '<div>' 
+				      	+ '</div>';
+			var tmp = undefined;
+			var viewModel = {
+				setName: function() {
+					tmp = "xiaofei";
+				}
+			};
+		    var jqueryObject = ko.util.instruct.click("function() {setName();}", $(template), viewModel);
+		    jqueryObject.click();
+
+			it('should invoke click event', function() {
+				assert.equal(tmp, "xiaofei");
+			});
+
+		});
+
 	});	
 
 	describe('Test For Rendering DOM: ', function () {
