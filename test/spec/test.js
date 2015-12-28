@@ -108,6 +108,21 @@
 			});
 		});
 
+		describe('decode value', function() {
+			var binding = "getName()";
+			var viewModel = {
+				getName: function() {
+					return "xiaofei";
+				}
+			}
+
+			var value = ko.util.decodeValue(binding, viewModel);
+
+			it('should decode function', function() {
+				assert.equal(value, "xiaofei");
+			});
+		});
+
 	});	
 
 	describe('Test For Rendering DOM: ', function () {
