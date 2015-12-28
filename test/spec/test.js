@@ -123,6 +123,17 @@
 			});
 		});
 
+		describe('text instruct', function() {
+			var template = '<div>' 
+				      	+ '</div>';
+		    var jqueryObject = ko.util.instruct.text("xiaofei", $(template));
+
+			it('should render text', function() {
+				assert.equal(jqueryObject.text(), "xiaofei");
+			});
+
+		});
+
 	});	
 
 	describe('Test For Rendering DOM: ', function () {
