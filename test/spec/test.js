@@ -182,6 +182,21 @@
 
 
 	});	
+	
+	describe('Test For Observable: ', function () {
+
+		describe('observable', function() {
+			var observable = ko.observable();
+
+			it('should be function', function () {
+				assert.equal(observable.constructor.name, "Function");
+			});
+			observable("xiaofei");
+			it('should return value', function () {
+				assert.equal(observable(), "xiaofei");
+			});
+		});
+	});
 
 	describe('Test For Rendering DOM: ', function () {
 		
