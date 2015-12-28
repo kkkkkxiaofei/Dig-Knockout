@@ -152,6 +152,21 @@
 
 		});
 
+		describe('if instruct', function() {
+			var template = '<div>'
+						+ '<p>xiaofei</p>' 
+				      	+ '</div>';
+			
+		    var jqueryObject = ko.util.instruct.if(true, $(template));
+
+			it('should render if instruct', function() {
+				assert.equal(jqueryObject._value, true);
+				assert.equal(jqueryObject._type, "if");
+			});
+
+		});
+
+
 	});	
 
 	describe('Test For Rendering DOM: ', function () {
