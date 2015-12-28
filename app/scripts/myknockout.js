@@ -79,7 +79,7 @@
 		},
 		render: function(realDom, viewModel, attrValue) {
 			var instruct = ko.util.getInstructByAttributeValue(attrValue);
-			var value = ko.util.getValueByInstruct(instruct, ko.unwrap(viewModel));
+			var value = ko.util.getValueByInstruct(instruct, viewModel);
 			if(value.isObservable) {
 				value._target = realDom;
 			}
@@ -182,6 +182,9 @@
 
 		},
 		getValueByInstruct: function(instruct, viewModel) {
+			if(viewModel.isObservable) {
+				return viewModel;
+			}
 			var type = instruct.chain.constructor.name;
 			if(ko.util.isEventInstruct(instruct.type)) {
 				var value = findValueByPropertyChain(instruct.chain, ko.$scope || viewModel);
