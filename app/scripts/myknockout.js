@@ -82,10 +82,11 @@
 		render: function(realDom, viewModel, attrValue) {
 			var instruct = ko.util.getInstructByAttributeValue(attrValue);
 			var value = ko.util.getValueByInstruct(instruct, viewModel);
+			var result, param;
 			if(value.isObservable) {
 				value._target = realDom;
 			}
-			return ko.util.instruct[instruct.type].call(this, value, $(realDom), viewModel);
+			return ko.util.instruct[instruct.type].call(this, value, $(realDom), viewModel, instruct);
 		},
 		observable: function(defaultValue) {
 			var self = {};
@@ -239,15 +240,27 @@
 			return ["click"].indexOf(type) != -1;
 		},
 		instruct: {
-			text: function(value, jqueryObject) {
+			text: function(value, jqueryObject, viewModel, instruct) {
+				var object = ko.unwrap(value);
+				if(object.constructor.name == "Object") {
+					value = ko.util.getValueByInstruct(instruct, object);
+				} else {
+					value = ko.unwrap(value);
+				}
 				jqueryObject.text(ko.unwrap(value));
 				return jqueryObject;
 			},
-			click: function(fn, jqueryObject, viewModel) {
-				var fn = ko.util.decodeFn(ko.unwrap(fn), viewModel);
+			click: function(fn, jqueryObject, viewModel, instruct) {
+				var result, param;
+				if(fn.isObservable) {
+					result = ko.util.getValueByInstruct(instruct, ko.$scope);
+					param = fn;
+				} else {
+					result = ko.util.decodeFn(ko.unwrap(fn), viewModel);
+				}
 				return jqueryObject.click(function() {
-					with(viewModel) {
-						fn && fn(viewModel);
+					with(ko.$scope) {
+						result && result(param);
 					}
 				});
 			},
