@@ -331,7 +331,8 @@
 	describe('Test For Rendering DOM With Observable Bingding: ', function () {
 		
 		afterEach(function() {
-			$('body').children().eq(-1).remove();
+			var len = $('body').children().length;
+			len > 8 && $('body').children().eq(-1).remove();
 		});
 
 		describe('text instruct with observable object', function() {
@@ -463,7 +464,11 @@
 				assert.equal(text4, "KnockoutjsKnockoutjs");
 			});
 
-    		
+    		viewModel.messages(ko.unwrap(viewModel.messages));
+
+    		it('should be same with original dom', function() {
+				assert.equal(jqueryObject.children().length, 5);
+			});
 		});
 
 
