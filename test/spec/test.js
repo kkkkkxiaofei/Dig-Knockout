@@ -401,6 +401,70 @@
 			}); 
 
 		});
+		
+		describe('foreach instruct with observable object', function() {
+    		var viewModel = {
+    			messages: ko.observableArray([
+					{
+						title: ko.observable("HTML5"),
+						content: ko.observable("HTML5")
+					},
+					{
+						title: ko.observable("Sass"),
+						content: ko.observable("Sass") 
+					},
+					{
+						title: ko.observable("Bootstrap"),
+						content: ko.observable("Bootstrap")
+					},
+					{
+						title: ko.observable("Modernizr"),
+						content: ko.observable("Modernizr") 
+					}
+	    		])
+    		};
+    		ko.applyBindings(viewModel, 'fixture9');
+    		var jqueryObject = $('body').children().eq(-1);
+    		var children = jqueryObject.children(); 
+    		var len1 = children.length;
+    		
+    		it('should render four sub dom', function() {
+    			assert.equal(len1, 4);
+    		});
+
+
+    		var text0 = children.eq(0).text().trim();
+    		var text1 = children.eq(1).text().trim();
+    		var text2 = children.eq(2).text().trim();
+    		var text3 = children.eq(3).text().trim();
+
+			it('should render correct dom', function() {
+				assert.equal(text0, "HTML5HTML5");
+				assert.equal(text1, "SassSass");
+				assert.equal(text2, "BootstrapBootstrap");
+				assert.equal(text3, "ModernizrModernizr");
+			});
+
+			viewModel.messages.push({
+				title: ko.observable("Knockoutjs"),
+				content: ko.observable("Knockoutjs") 
+			});
+    		
+    		var newChildren = jqueryObject.children();
+    		var len2 = newChildren.length;
+
+    		it('should append dom', function() {
+				assert.equal(len2, 5);
+			});
+
+    		var text4 = newChildren.eq(4).text().trim();
+
+    		it('should render correctly for new sub dom', function() {
+				assert.equal(text4, "KnockoutjsKnockoutjs");
+			});
+
+    		
+		});
 
 
 	});
