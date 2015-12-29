@@ -75,6 +75,8 @@
 			$('#' + id).remove();
 			if(!ko._viewModel) {
 				ko._viewModel = viewModel;
+			} else {
+				ko._viewModel = null;
 			}
 		},
 		render: function(realDom, viewModel, attrValue) {

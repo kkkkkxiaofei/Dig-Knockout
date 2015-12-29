@@ -329,9 +329,14 @@
 	});
 	
 	describe('Test For Rendering DOM With Observable Bingding: ', function () {
-
+		
 		afterEach(function() {
 			$('body').children().eq(-1).remove();
+			ko._viewModel = null;
+		});
+
+		beforeEach(function() {
+			ko._viewModel = null;
 		});
 
 		describe('text instruct with observable object', function() {

@@ -91,3 +91,14 @@ body {
     border-bottom: 0;
   }
 }
+
+/* mystyle */
+.field {
+  border: 3px dashed transparent;
+}
+
+.field:hover {
+  border: 3px dashed #ccc;
+  margin: 3px 0;
+}
+

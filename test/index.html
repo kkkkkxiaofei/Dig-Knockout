@@ -53,15 +53,27 @@
     <template id="fixture7">
       <div>
         <div data-bind="text: name">
-            <div data-bind="text: title">
-            </div>
         </div>
-        <div data-bind="text: name">
-            <div data-bind="text: title">
-            </div>
+        <div data-bind="text: title">
         </div>
       </div>
-    </template>   
+    </template>
+    <template id="fixture8">
+      <div data-bind="if: outerflag">
+        <p>inner text1</p>
+        <div data-bind="if: innerflag">
+          <div>inner text2</div>
+        </div>
+      </div>
+    </template> 
+    <template id="fixture9">
+      <div data-bind="foreach: messages" id="foreach-test">
+        <div>
+          <p data-bind="text: title"></p>
+          <p data-bind="text: content"></p>
+        </div>  
+      </div>
+    </template>    
   </div>
   <script src="../bower_components/mocha/mocha.js"></script>
   <script>mocha.setup('bdd');</script>
