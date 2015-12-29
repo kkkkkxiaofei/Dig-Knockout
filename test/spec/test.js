@@ -332,11 +332,6 @@
 		
 		afterEach(function() {
 			$('body').children().eq(-1).remove();
-			ko._viewModel = null;
-		});
-
-		beforeEach(function() {
-			ko._viewModel = null;
 		});
 
 		describe('text instruct with observable object', function() {
@@ -367,6 +362,47 @@
     		});
 
 		});
+
+		describe('if instruct with observable object', function() {
+    		var viewModel = {
+				outerflag: ko.observable(true),
+				innerflag: ko.observable(true)
+    		};
+    		ko.applyBindings(viewModel, 'fixture8');
+    		var jqueryObject = $('body').children().eq(-1);
+
+    		var len1 = jqueryObject.children().length;
+    		
+    		it('should render one sub dom', function() {
+    			assert.equal(len1, 2);
+    		});
+
+    		var text0 = jqueryObject.children().eq(0).text().trim();
+    		var text1 = jqueryObject.children().eq(1).text().trim();
+			it('should render correct dom', function() {
+				assert.equal(text0, "inner text1");
+				assert.equal(text1, "inner text2");
+			});
+
+
+    		viewModel.innerflag(false);
+			
+			var text2 = jqueryObject.text().trim();
+
+			it('should render correctly for new dom', function() {
+				assert.equal(text2, "inner text1");
+			});    		
+
+			viewModel.outerflag(false);
+
+			var len2 = jqueryObject.children().length;
+			it('should render no dom', function() {
+				assert.equal(len2, 0);
+			}); 
+
+		});
+
+
 	});
 
 })();
