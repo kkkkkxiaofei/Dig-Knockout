@@ -49,7 +49,7 @@
 				}
 				var copy = $(subNodes).clone();
 				var scope = root._value;
-				ko.renderSubNodes(copy, scope);
+				ko.renderSubNodes(copy, value);
 				copy.length > 0 && root.append(copy);
 				if(scope.isObservable) {
 					scope._target = copy;

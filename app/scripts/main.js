@@ -22,30 +22,32 @@
 			})
 		]),
 		openEditModal: openEditModal,
-		editingMessage: ko.observable({
+		copyMessage: {
 			title: ko.observable("asdasd"),
 			content: ko.observable("asdasd"),
-		}),
+		},
 		update: update
 	};
+
 	var messages = viewModel.messages;
-	var editingMessage = viewModel.editingMessage;
+	var copyMessage = viewModel.copyMessage;
+	var editingMessage = undefined;
 
 	function openEditModal(message) {
-		var tmp = {
-			title: ko.observable(ko.unwrap(message().title)),
-			content: ko.observable(ko.unwrap(message().content))
-		}
-		editingMessage(tmp);
 		$('#exampleModal').modal('show');
+		copyMessage.title(ko.unwrap(message().title)),
+		copyMessage.content(ko.unwrap(message().content))
+		editingMessage = message;
 	}
 
-	function update(message) {
+	function update() {
 		var tmp = {
-			title: ko.observable(ko.unwrap(editingMessage().title)),
-			content: ko.observable(ko.unwrap(editingMessage().content))
+			title: ko.observable(ko.unwrap(copyMessage.title)),
+			content: ko.observable(ko.unwrap(copyMessage.content))
 		}
-		message(tmp);
+		// editingMessage().title(ko.unwrap(copyMessage.title)),
+		// editingMessage().content(ko.unwrap(copyMessage.content))
+		editingMessage(tmp);
 		$('#exampleModal').modal('hide');
 	}
 

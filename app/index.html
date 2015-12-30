@@ -58,7 +58,7 @@
               <p><span class="glyphicon glyphicon-heart"></span> from the Yeoman team</p>
             </div>
         </div>
-        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" data-bind="with: editingMessage">
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
               <div class="modal-header">
@@ -69,11 +69,11 @@
                 <form>
                   <div class="form-group">
                     <label for="recipient-name" class="control-label">Title:</label>
-                    <input type="text" class="form-control" id="recipient-name" data-bind="input: title">
+                    <input type="text" class="form-control" id="recipient-name" data-bind="input: copyMessage.title">
                   </div>
                   <div class="form-group">
                     <label for="message-text" class="control-label">Content:</label>
-                    <textarea class="form-control" id="message-text" data-bind="input: content"></textarea>
+                    <textarea class="form-control" id="message-text" data-bind="input: copyMessage.content"></textarea>
                   </div>
                 </form>
               </div>
