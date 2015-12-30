@@ -25,6 +25,7 @@
 	};
 	var messages = viewModel.messages;
 	function editMessage(message) {
+		$('#exampleModal').modal('show');
 		message({
 			title: "xiaofei",
 			content: "mvvm"			
