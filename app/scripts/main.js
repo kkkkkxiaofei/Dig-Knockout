@@ -21,15 +21,23 @@
 				content: ko.observable("Modernizr is an open-source JavaScript library that helps you build the next generation of HTML5 and CSS3-powered websites.")
 			})
 		]),
-		edit: editMessage
+		openEditModal: openEditModal,
+		editingMessage: ko.observable({
+			title: ko.observable("asdasd"),
+			content: ko.observable("asdasd"),
+		})
 	};
 	var messages = viewModel.messages;
-	function editMessage(message) {
+	var editingMessage = viewModel.editingMessage;
+	
+	function openEditModal(message) {
 		$('#exampleModal').modal('show');
-		message({
-			title: "xiaofei",
-			content: "mvvm"			
-		});
+		var tmp = {
+			title: ko.observable(ko.unwrap(message().title)),
+			content: ko.observable(ko.unwrap(message().content))
+		}
+		editingMessage(tmp);
 	}
+
 	ko.applyBindings(viewModel, 'test');
 })(this);
