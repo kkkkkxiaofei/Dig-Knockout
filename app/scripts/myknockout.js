@@ -43,9 +43,17 @@
 					}
 				}
 			} else if(root._type == "with"){
-				var scope = root._value; 
-				ko.renderSubNodes(realSubNodes, scope);
-				realSubNodes.length > 0 && root.append(realSubNodes);
+				var value = ko.unwrap(root._value);
+				if(!value) {
+					return;
+				}
+				var copy = $(subNodes).clone();
+				var scope = root._value;
+				ko.renderSubNodes(copy, scope);
+				copy.length > 0 && root.append(copy);
+				if(scope.isObservable) {
+					scope._target = copy;
+				}
 			} else {
 				ko.renderSubNodes(realSubNodes, viewModel);
 				realSubNodes.length > 0 && root.append(realSubNodes);
@@ -85,7 +93,6 @@
 		render: function(realDom, viewModel, attrValue) {
 			var instruct = ko.util.getInstructByAttributeValue(attrValue);
 			var value = ko.util.getValueByInstruct(instruct, viewModel);
-			var result, param;
 			if(value.isObservable) {
 				value._target = realDom;
 			}
@@ -211,7 +218,7 @@
 				var value = undefined;
 				while(chains.length > 0) {
 					var pro = chains.shift();
-					value = viewModel[pro.trim()];
+					value = ko.unwrap(viewModel)[pro.trim()];
 					if(value == undefined) {
 						return undefined;
 					}
@@ -278,11 +285,21 @@
 				return jqueryObject;
 			},
 			input: function(value, jqueryObject, viewModel, instruct) {
-				jqueryObject.keyup(function(e) {
+				var initValue, object = ko.unwrap(value);
+			
+				if(object.constructor.name == "Object") {
+					initValue = ko.util.getValueByInstruct(instruct, object);
+				} else {
+					initValue = ko.unwrap(value);
+			
+				}
+			
+				jqueryObject.val(ko.unwrap(initValue));
+
+				return	jqueryObject.keyup(function(e) {
 					var val = $(e.target).val();
 					value(val);
 				});
-				return jqueryObject.val(ko.unwrap(value));
 			},
 			with: function(value, jqueryObject) {
 				jqueryObject._type = 'with';
