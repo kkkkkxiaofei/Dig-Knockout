@@ -46,7 +46,7 @@
             </div>
             <div class="row marketing">
               <div class="col-lg-6" data-bind="foreach: messages">
-                <div class="field" data-bind="click: edit">
+                <div class="field" data-bind="click: openEditModal">
                   <h4>
                       <a href="https://html5boilerplate.com/" data-bind="text: title"></a>
                   </h4>
@@ -54,14 +54,11 @@
                 </div>  
               </div>
             </div>
-            <div>
-              <input type="text" data-bind="input: name">
-            </div>
             <div class="footer">
               <p><span class="glyphicon glyphicon-heart"></span> from the Yeoman team</p>
             </div>
         </div>
-        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" data-bind="with: editingMessage">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
               <div class="modal-header">
@@ -71,12 +68,12 @@
               <div class="modal-body">
                 <form>
                   <div class="form-group">
-                    <label for="recipient-name" class="control-label">Recipient:</label>
-                    <input type="text" class="form-control" id="recipient-name">
+                    <label for="recipient-name" class="control-label">Title:</label>
+                    <input type="text" class="form-control" id="recipient-name" data-bind="input: title">
                   </div>
                   <div class="form-group">
-                    <label for="message-text" class="control-label">Message:</label>
-                    <textarea class="form-control" id="message-text"></textarea>
+                    <label for="message-text" class="control-label">Content:</label>
+                    <textarea class="form-control" id="message-text" data-bind="input: content"></textarea>
                   </div>
                 </form>
               </div>

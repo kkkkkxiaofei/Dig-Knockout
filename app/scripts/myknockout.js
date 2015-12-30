@@ -43,7 +43,8 @@
 					}
 				}
 			} else {
-				ko.renderSubNodes(realSubNodes, viewModel);
+				var scope = root._type == "with" ? root._value : viewModel; 
+				ko.renderSubNodes(realSubNodes, scope);
 				realSubNodes.length > 0 && root.append(realSubNodes);
 			}
 			return root;
@@ -279,6 +280,11 @@
 					value(val);
 				});
 				return jqueryObject.val(ko.unwrap(value));
+			},
+			with: function(value, jqueryObject) {
+				jqueryObject._type = 'with';
+				jqueryObject._value = ko.unwrap(value);
+				return jqueryObject;
 			}
 		}
 	};
