@@ -42,18 +42,6 @@
 						return;
 					}
 				}
-			} else if(root._type == "with"){
-				var value = ko.unwrap(root._value);
-				if(!value) {
-					return;
-				}
-				var copy = $(subNodes).clone();
-				var scope = root._value;
-				ko.renderSubNodes(copy, value);
-				copy.length > 0 && root.append(copy);
-				if(scope.isObservable) {
-					scope._target = copy;
-				}
 			} else {
 				ko.renderSubNodes(realSubNodes, viewModel);
 				realSubNodes.length > 0 && root.append(realSubNodes);
@@ -300,11 +288,6 @@
 					var val = $(e.target).val();
 					value(val);
 				});
-			},
-			with: function(value, jqueryObject) {
-				jqueryObject._type = 'with';
-				jqueryObject._value = value;
-				return jqueryObject;
 			}
 		}
 	};

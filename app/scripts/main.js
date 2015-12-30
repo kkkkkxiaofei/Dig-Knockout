@@ -45,8 +45,6 @@
 			title: ko.observable(ko.unwrap(copyMessage.title)),
 			content: ko.observable(ko.unwrap(copyMessage.content))
 		}
-		// editingMessage().title(ko.unwrap(copyMessage.title)),
-		// editingMessage().content(ko.unwrap(copyMessage.content))
 		editingMessage(tmp);
 		$('#exampleModal').modal('hide');
 	}
