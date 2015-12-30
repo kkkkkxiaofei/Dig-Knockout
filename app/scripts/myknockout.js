@@ -65,7 +65,11 @@
 			}
 		},
 		applyBindings: function(viewModel, id) {
-			ko.$scope = viewModel;
+			if(!ko.$scope) {
+				ko.$scope = viewModel;
+			} else {
+				ko.$scope = null;
+			}
 			var clone = document.importNode(document.querySelector('#' + id).content, true);
 			var fragmentContent = ko.util.splitSubRealDoms(clone);
 			for(var i = 0;i < fragmentContent.length;i++) {
@@ -73,11 +77,6 @@
 				$('body').append($(result));
 			}
 			$('#' + id).remove();
-			if(!ko._viewModel) {
-				ko._viewModel = viewModel;
-			} else {
-				ko._viewModel = null;
-			}
 		},
 		render: function(realDom, viewModel, attrValue) {
 			var instruct = ko.util.getInstructByAttributeValue(attrValue);
@@ -141,7 +140,7 @@
 				},
 				set: function(val) {
 					value = val;
-					fn._target && ko.renderTemplate(fn._target, ko._viewModel);
+					fn._target && ko.renderTemplate(fn._target, ko.$scope);
 				}
 			});
 
@@ -259,7 +258,7 @@
 					result = ko.util.decodeFn(ko.unwrap(fn), viewModel);
 				}
 				return jqueryObject.click(function() {
-					with(ko.$scope) {
+					with(ko.$scope || viewModel) {
 						result && result(param);
 					}
 				});
