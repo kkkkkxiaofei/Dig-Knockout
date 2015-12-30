@@ -25,18 +25,28 @@
 		editingMessage: ko.observable({
 			title: ko.observable("asdasd"),
 			content: ko.observable("asdasd"),
-		})
+		}),
+		update: update
 	};
 	var messages = viewModel.messages;
 	var editingMessage = viewModel.editingMessage;
-	
+
 	function openEditModal(message) {
-		$('#exampleModal').modal('show');
 		var tmp = {
 			title: ko.observable(ko.unwrap(message().title)),
 			content: ko.observable(ko.unwrap(message().content))
 		}
 		editingMessage(tmp);
+		$('#exampleModal').modal('show');
+	}
+
+	function update(message) {
+		var tmp = {
+			title: ko.observable(ko.unwrap(editingMessage().title)),
+			content: ko.observable(ko.unwrap(editingMessage().content))
+		}
+		message(tmp);
+		$('#exampleModal').modal('hide');
 	}
 
 	ko.applyBindings(viewModel, 'test');

@@ -42,9 +42,12 @@
 						return;
 					}
 				}
-			} else {
-				var scope = root._type == "with" ? root._value : viewModel; 
+			} else if(root._type == "with"){
+				var scope = root._value; 
 				ko.renderSubNodes(realSubNodes, scope);
+				realSubNodes.length > 0 && root.append(realSubNodes);
+			} else {
+				ko.renderSubNodes(realSubNodes, viewModel);
 				realSubNodes.length > 0 && root.append(realSubNodes);
 			}
 			return root;
@@ -274,7 +277,7 @@
 				jqueryObject._value = ko.unwrap(value);
 				return jqueryObject;
 			},
-			input: function(value, jqueryObject) {
+			input: function(value, jqueryObject, viewModel, instruct) {
 				jqueryObject.keyup(function(e) {
 					var val = $(e.target).val();
 					value(val);
@@ -283,7 +286,7 @@
 			},
 			with: function(value, jqueryObject) {
 				jqueryObject._type = 'with';
-				jqueryObject._value = ko.unwrap(value);
+				jqueryObject._value = value;
 				return jqueryObject;
 			}
 		}
