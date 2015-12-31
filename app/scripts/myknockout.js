@@ -284,7 +284,7 @@
 			
 				jqueryObject.val(ko.unwrap(initValue));
 
-				return	jqueryObject.keyup(function(e) {
+				return	jqueryObject.blur(function(e) {
 					var val = $(e.target).val();
 					value(val);
 				});
