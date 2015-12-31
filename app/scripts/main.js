@@ -21,23 +21,28 @@
 				content: ko.observable("Modernizr is an open-source JavaScript library that helps you build the next generation of HTML5 and CSS3-powered websites.")
 			})
 		]),
-		openEditModal: openEditModal,
+		openModalForEdit: openModalForEdit,
 		copyMessage: {
 			title: ko.observable("asdasd"),
 			content: ko.observable("asdasd"),
 		},
-		update: update
+		save: save,
+		update: update,
+		openModalForCreate: openModalForCreate,
+		add: add
 	};
 
 	var messages = viewModel.messages;
 	var copyMessage = viewModel.copyMessage;
 	var editingMessage = undefined;
+	var isCreate = true;
 
-	function openEditModal(message) {
-		$('#exampleModal').modal('show');
+	function openModalForEdit(message) {
+		isCreate = false;
 		copyMessage.title(ko.unwrap(message().title)),
 		copyMessage.content(ko.unwrap(message().content))
 		editingMessage = message;
+		$('#exampleModal').modal('show');
 	}
 
 	function update() {
@@ -49,5 +54,26 @@
 		$('#exampleModal').modal('hide');
 	}
 
+	function openModalForCreate() {
+		isCreate = true;
+		$('#exampleModal').modal('show');
+		copyMessage.title(""),
+		copyMessage.content("")
+	}
+
+	function add() {
+		var newMessage = ko.observable({
+			title: ko.observable(ko.unwrap(copyMessage.title)),
+			content: ko.observable(ko.unwrap(copyMessage.content))
+		});
+		messages.push(newMessage);
+		$('#exampleModal').modal('hide');
+	}
+
+	function save() {
+		isCreate ? add.call(this) : update.call(this);
+	}
+
 	ko.applyBindings(viewModel, 'test');
+
 })(this);
