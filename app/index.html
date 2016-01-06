@@ -36,24 +36,30 @@
               <h3 class="text-muted">MVVM Demo</h3>
             </div>
             <div class="jumbotron">
-              <p class="lead"  data-bind="text: name">Always a pleasure scaffolding your apps.</p>
               <p>
                 <a class="btn btn-lg btn-success" href="#">
-                    <span class="glyphicon glyphicon-ok" data-bind="text: info"></span>
+                    <span class="glyphicon glyphicon-ok">Github Repo</span>
                 </a>
               </p>
+              <a class="lead">github.com/kkkkkxiaofei/Dig-Knockout</a>
             </div>
-            <div class="pull-right">
-              <button type="button" class="btn btn-primary" data-bind="click: openModalForCreate">Create</button>
-            </div>
-            <div class="row marketing">
-              <div class="col-lg-12" data-bind="foreach: messages">
-                <div class="field" data-bind="click: openModalForEdit">
-                  <h4>
-                      <a href="https://html5boilerplate.com/" data-bind="text: title"></a>
-                  </h4>
-                  <p data-bind="text: content"></p>
-                </div>  
+            <div class="content">
+              <div class="row marketing">
+                <div class="col-lg-12">
+                  <div class="pull-right">
+                    <button type="button" class="btn btn-primary" data-bind="click: openModalForCreate">Create</button>
+                  </div>
+                </div>
+              </div>
+              <div class="row marketing">
+                <div class="col-lg-12" data-bind="foreach: messages">
+                  <div class="field" data-bind="click: openModalForEdit">
+                    <h4>
+                        <a href="https://html5boilerplate.com/" data-bind="text: title"></a>
+                    </h4>
+                    <p data-bind="text: content"></p>
+                  </div>  
+                </div>
               </div>
             </div>
             <div class="footer">
@@ -65,7 +71,7 @@
             <div class="modal-content">
               <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="exampleModalLabel">Edit Message</h4>
+                <h4 class="modal-title" id="exampleModalLabel">Message Body</h4>
               </div>
               <div class="modal-body">
                 <form>
