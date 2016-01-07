@@ -3,7 +3,7 @@ Dig-Knockout
 
 Dig-Knockout is a tiny library which trys to show you how the popular library of MVVM works. Maybe you are confused for the mechanism because you have experienced many similar frameworks only by calling API. 
 
-So, I write the same functions just like Konockoutjs, some bingdings instruction(text, html, click, if, foreach) has been implimented in this library, I help this tiny guy could help you understand how to design a framwork of MVVM.
+So, I write the same functions just like Konockoutjs, some bingdings instruction(text, html, click, if, foreach) has been implimented in this library, I hope this tiny guy could help you understand how to design a framwork of MVVM.
 
 Now let's dig it out together.
 
@@ -24,6 +24,7 @@ Grunt Task
     * `grunt `
 2. Run Test
     * `grunt test `
+Also you can open test in browser, Plesae `open test/index.html`
 3. Build App
     * `grunt build `
 
